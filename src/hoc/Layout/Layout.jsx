@@ -1,10 +1,10 @@
 import React from 'react';
-import { Header } from '../../components/Header/Header';
+import Header from '../../components/Header/Header';
 
-export const Layout = ({ isAuth, children }) => {
+export const Layout = ({ children }) => {
   return (
     <div className="App">
-      <Header isAuth={isAuth} />
+      <Header />
       <main>{children}</main>
     </div>
   );

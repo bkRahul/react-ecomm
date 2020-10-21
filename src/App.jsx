@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { Category } from './components/HomePage/Category/Category';
 import CategoryItem from './components/HomePage/Category/CategoryItem/CategoryItem';
 import { HomePage } from './components/HomePage/HomePage';
@@ -7,10 +7,10 @@ import { ShopPage } from './components/ShopPage/ShopPage';
 import { Layout } from './hoc/Layout/Layout';
 import { Auth } from './containers/Auth/Auth';
 import { auth, createUserProfileDocument } from './utils/firebase';
+import { connect } from 'react-redux';
+import { setCurrentUser } from './redux/store/actions';
 
-function App() {
-  const [isAuth, setIsAuth] = useState({ currentUser: '' });
-
+function App({ setCurrentUser, isAuth }) {
   useEffect(() => {
     let unSubscribeFromAuth = null;
 
@@ -20,30 +20,32 @@ function App() {
       if (userAuth) {
         //create user profile whuch return document refernece
         const userRef = await createUserProfileDocument(userAuth);
+
         //get document snapshot from document reference
         userRef.onSnapshot(snapShot => {
-          setIsAuth({
-            currentUser: {
-              id: snapShot.id,
-              ...snapShot.data(),
-            },
+          setCurrentUser({
+            id: snapShot.id,
+            ...snapShot.data(),
           });
         });
       } else {
-        setIsAuth({ currentUser: userAuth });
+        //if not logged in set it to null
+        setCurrentUser(userAuth);
       }
     });
     return () => {
       unSubscribeFromAuth();
     };
-  }, []);
-  console.log('isAuth', isAuth);
+  }, [setCurrentUser]);
   return (
-    <Layout isAuth={isAuth.currentUser}>
+    <Layout>
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route path="/auth" component={Auth} />
         <Route path="/shop" component={ShopPage} />
+        <Route
+          path="/auth"
+          render={() => (isAuth ? <Redirect to="/" /> : <Auth />)}
+        />
         <Route path="/category" component={Category} />
         <Route path="/category/:items" component={CategoryItem} />
       </Switch>
@@ -51,4 +53,10 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = state => ({ isAuth: state.user.currentUser });
+
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

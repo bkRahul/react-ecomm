@@ -1,10 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/svg/crown.svg';
 import { auth } from '../../utils/firebase';
 import classes from './Header.module.scss';
 
-export const Header = ({ isAuth }) => {
+const Header = ({ isAuth }) => {
   return (
     <div className={classes.Header}>
       <NavLink to="/" className={classes.LogoContainer}>
@@ -30,3 +31,7 @@ export const Header = ({ isAuth }) => {
     </div>
   );
 };
+
+const mapStateToProps = state => ({ isAuth: state.user.currentUser });
+
+export default connect(mapStateToProps)(Header);
