@@ -7,24 +7,26 @@ import classes from './Header.module.scss';
 export const Header = ({ isAuth }) => {
   return (
     <div className={classes.Header}>
-      <NavLink to="/">
+      <NavLink to="/" className={classes.LogoContainer}>
         <Logo className={classes.Logo} />
       </NavLink>
-      <NavLink to="/shop" className={classes.option}>
-        SHOP
-      </NavLink>
-      <NavLink to="/contact" className={classes.option}>
-        CONTACT
-      </NavLink>
-      {!isAuth ? (
-        <NavLink to="/auth" className={classes.option}>
-          LOG IN
+      <div className={classes.Options}>
+        <NavLink to="/shop" className={classes.Option}>
+          SHOP
         </NavLink>
-      ) : (
-        <div className={classes.option} onClick={() => auth.signOut()}>
-          LOG OUT
-        </div>
-      )}
+        <NavLink to="/contact" className={classes.Option}>
+          CONTACT
+        </NavLink>
+        {isAuth ? (
+          <div className={classes.Option} onClick={() => auth.signOut()}>
+            LOG OUT
+          </div>
+        ) : (
+          <NavLink to="/auth" className={classes.Option}>
+            LOG IN
+          </NavLink>
+        )}
+      </div>
     </div>
   );
 };

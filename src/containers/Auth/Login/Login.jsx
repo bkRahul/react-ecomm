@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classes from './Login.module.scss';
 import Input from '../../../ui/Input/Input';
 import { Button } from '../../../ui/Button/Button';
-import { signInWithGoogle } from '../../../utils/firebase';
+import { auth, signInWithGoogle } from '../../../utils/firebase';
 
 export default class Login extends Component {
   constructor(props) {
@@ -24,6 +24,16 @@ export default class Login extends Component {
 
   onSubmitHandler(e) {
     e.preventDefault();
+    const { email, password } = this.state;
+    try {
+      auth.signInWithEmailAndPassword(email, password);
+      this.setState({
+        email: '',
+        password: '',
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   render() {
