@@ -8,7 +8,7 @@ import { Layout } from './hoc/Layout/Layout';
 import { Auth } from './containers/Auth/Auth';
 import { auth, createUserProfileDocument } from './utils/firebase';
 import { connect } from 'react-redux';
-import { setCurrentUser } from './redux/store/actions';
+import { setCurrentUser } from './redux/store/user/user.actions';
 
 function App({ setCurrentUser, isAuth }) {
   useEffect(() => {

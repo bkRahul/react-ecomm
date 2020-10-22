@@ -1,5 +1,5 @@
 import { addItemToCartUtil } from '../../../utils/cart';
-import { cartActionTypes } from '../actionsTypes';
+import { cartActionTypes } from './cart.actionTypes';
 
 const INITIAL_STATE = {
   cartPreview: false,

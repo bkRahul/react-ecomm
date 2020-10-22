@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classes from './ProductPreviewItem.module.scss';
 import { Button } from '../../../../ui/Button/Button';
-import { addToCart } from '../../../../redux/store/actions';
+import { addToCart } from '../../../../redux/store/cart/cart.actions';
 
 const ProductPreviewItem = ({ item, addToCart }) => {
   const { name, imageUrl, price } = item;
