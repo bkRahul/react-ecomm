@@ -1,11 +1,22 @@
-.CategoryPreviewItem {
+.ProductPreviewItem {
   width: 22%;
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 350px;
   align-items: center;
 
+  &:hover {
+    opacity: 0.8;
+    Button {
+      display: block;
+    }
+  }
+
   .Image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 95%;
     background-size: cover;

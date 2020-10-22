@@ -1,14 +1,14 @@
 import React from 'react';
 import classes from './Button.module.scss';
 
-export const Button = props => {
+export const Button = ({ disabled, btnType, clicked, children }) => {
   return (
     <button
-      disabled={props.disabled}
-      className={[classes.Button, classes[props.btnType]].join(' ')}
-      onClick={props.clicked}
+      disabled={disabled}
+      className={[classes.Button, classes[btnType]].join(' ')}
+      onClick={clicked}
     >
-      {props.children}
+      {children}
     </button>
   );
 };

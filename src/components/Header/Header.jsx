@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/svg/crown.svg';
 import { auth } from '../../utils/firebase';
+import CartDropdown from './Cart/CartDropown/CartDropdown';
+import CartIcon from './Cart/CartIcon/CartIcon';
 import classes from './Header.module.scss';
 
-const Header = ({ isAuth }) => {
+const Header = ({ isAuth, isVisible }) => {
   return (
     <div className={classes.Header}>
       <NavLink to="/" className={classes.LogoContainer}>
@@ -27,11 +29,16 @@ const Header = ({ isAuth }) => {
             LOG IN
           </NavLink>
         )}
+        <CartIcon />
       </div>
+      {isVisible && <CartDropdown />}
     </div>
   );
 };
 
-const mapStateToProps = state => ({ isAuth: state.user.currentUser });
+const mapStateToProps = state => ({
+  isAuth: state.user.currentUser,
+  isVisible: state.cart.cartPreview,
+});
 
 export default connect(mapStateToProps)(Header);
