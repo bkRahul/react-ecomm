@@ -5,10 +5,12 @@ import CategoryItem from './components/HomePage/Category/CategoryItem/CategoryIt
 import { HomePage } from './components/HomePage/HomePage';
 import { ShopPage } from './components/ShopPage/ShopPage';
 import { Layout } from './hoc/Layout/Layout';
-import { Auth } from './containers/Auth/Auth';
+import { Auth } from './components/Auth/Auth';
 import { auth, createUserProfileDocument } from './utils/firebase';
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/store/user/user.actions';
+import { selectCurrentUser } from './redux/store/user/user.selectors';
+import Checkout from './components/Checkout/Checkout';
 
 function App({ setCurrentUser, isAuth }) {
   useEffect(() => {
@@ -42,6 +44,7 @@ function App({ setCurrentUser, isAuth }) {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/shop" component={ShopPage} />
+        <Route path="/checkout" component={Checkout} />
         <Route
           path="/auth"
           render={() => (isAuth ? <Redirect to="/" /> : <Auth />)}
@@ -53,7 +56,7 @@ function App({ setCurrentUser, isAuth }) {
   );
 }
 
-const mapStateToProps = state => ({ isAuth: state.user.currentUser });
+const mapStateToProps = state => ({ isAuth: selectCurrentUser(state) });
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
