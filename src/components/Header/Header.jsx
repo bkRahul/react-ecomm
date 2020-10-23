@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/svg/crown.svg';
+import { selectCartPreview } from '../../redux/store/cart/cart.selectors';
+import { selectCurrentUser } from '../../redux/store/user/user.selectors';
 import { auth } from '../../utils/firebase';
 import CartDropdown from './Cart/CartDropown/CartDropdown';
 import CartIcon from './Cart/CartIcon/CartIcon';
@@ -37,8 +39,8 @@ const Header = ({ isAuth, isVisible }) => {
 };
 
 const mapStateToProps = state => ({
-  isAuth: state.user.currentUser,
-  isVisible: state.cart.cartPreview,
+  isAuth: selectCurrentUser(state),
+  isVisible: selectCartPreview(state),
 });
 
 export default connect(mapStateToProps)(Header);
