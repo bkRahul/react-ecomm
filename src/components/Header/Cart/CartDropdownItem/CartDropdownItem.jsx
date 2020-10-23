@@ -8,7 +8,7 @@ export const CartDropdownItem = ({ item: { imageUrl, name, price, qty } }) => {
       <div className={classes.ItemDetails}>
         <span className={classes.Name}>{name}</span>
         <span className="">
-          {qty} X ${price}
+          {qty} &#10005; ${price}
         </span>
       </div>
     </div>
