@@ -13,8 +13,16 @@ export const addToCart = item => {
   };
 };
 
-export const removeFromCart = () => {
+export const removeFromCart = item => {
   return {
     type: cartActionTypes.REMOVE_FROM_CART,
+    payload: item,
+  };
+};
+
+export const decreaseItemQty = item => {
+  return {
+    type: cartActionTypes.DECREASE_ITEM_QTY,
+    payload: item,
   };
 };

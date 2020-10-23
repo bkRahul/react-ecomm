@@ -5,7 +5,7 @@ import {
   selectCartItems,
   selectCartItemsTotal,
 } from '../../redux/store/cart/cart.selectors';
-import { CheckoutItem } from './CheckoutItem/CheckoutItem';
+import CheckoutItem from './CheckoutItem/CheckoutItem';
 
 const Checkout = ({ cartItems, cartTotal }) => {
   return (
