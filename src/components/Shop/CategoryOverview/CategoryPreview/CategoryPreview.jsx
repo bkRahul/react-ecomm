@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './CategoryPreview.module.scss';
-import ProductPreviewItem from './ProductPreviewItem/ProductPreviewItem';
+import Product from '../../../Product/Product';
 
 export const CategoryPreview = ({ title, items }) => {
   return (
@@ -10,7 +10,7 @@ export const CategoryPreview = ({ title, items }) => {
         {items
           .filter((item, i) => i < 4)
           .map(item => (
-            <ProductPreviewItem key={item.id} item={item} />
+            <Product key={item.id} item={item} />
           ))}
       </div>
     </div>

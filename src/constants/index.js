@@ -3,38 +3,38 @@ export const CATEGORY_DATA = [
     title: 'hats',
     imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
     id: 1,
-    linkUrl: 'hats',
+    linkUrl: 'shops/hats',
   },
   {
     title: 'jackets',
     imageUrl: 'https://i.ibb.co/px2tCc3/jackets.png',
     id: 2,
-    linkUrl: '',
+    linkUrl: 'shops/jackets',
   },
   {
     title: 'sneakers',
     imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png',
     id: 3,
-    linkUrl: '',
+    linkUrl: 'shops/sneakers',
   },
   {
     title: 'womens',
     imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png',
     size: 'large',
     id: 4,
-    linkUrl: '',
+    linkUrl: 'shops/womens',
   },
   {
     title: 'mens',
     imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
     size: 'large',
     id: 5,
-    linkUrl: '',
+    linkUrl: 'shops/mens',
   },
 ];
 
-export const SHOP_DATA = [
-  {
+export const SHOP_DATA = {
+  hats: {
     id: 1,
     title: 'Hats',
     routeName: 'hats',
@@ -95,7 +95,7 @@ export const SHOP_DATA = [
       },
     ],
   },
-  {
+  sneakers: {
     id: 2,
     title: 'Sneakers',
     routeName: 'sneakers',
@@ -150,7 +150,7 @@ export const SHOP_DATA = [
       },
     ],
   },
-  {
+  jackets: {
     id: 3,
     title: 'Jackets',
     routeName: 'jackets',
@@ -187,7 +187,7 @@ export const SHOP_DATA = [
       },
     ],
   },
-  {
+  womens: {
     id: 4,
     title: 'Womens',
     routeName: 'womens',
@@ -236,7 +236,7 @@ export const SHOP_DATA = [
       },
     ],
   },
-  {
+  mens: {
     id: 5,
     title: 'Mens',
     routeName: 'mens',
@@ -279,4 +279,12 @@ export const SHOP_DATA = [
       },
     ],
   },
-];
+};
+
+export const COLLECTION_ID_MAP = {
+  hats: 1,
+  sneakers: 2,
+  jackets: 3,
+  womens: 4,
+  mens: 5,
+};

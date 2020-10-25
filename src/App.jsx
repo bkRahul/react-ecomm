@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Category } from './components/HomePage/Category/Category';
-import CategoryItem from './components/HomePage/Category/CategoryItem/CategoryItem';
-import { HomePage } from './components/HomePage/HomePage';
-import { ShopPage } from './components/ShopPage/ShopPage';
+import Category from './components/Home/Category/Category';
+import CategoryItem from './components/Home/Category/CategoryItem/CategoryItem';
+import { Home } from './components/Home/Home';
+import { Shop } from './components/Shop/Shop';
 import { Layout } from './hoc/Layout/Layout';
 import { Auth } from './components/Auth/Auth';
 import { auth, createUserProfileDocument } from './utils/firebase';
@@ -42,8 +42,8 @@ function App({ setCurrentUser, isAuth }) {
   return (
     <Layout>
       <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route path="/shop" component={ShopPage} />
+        <Route exact path="/" component={Home} />
+        <Route path="/shop" component={Shop} />
         <Route path="/checkout" component={Checkout} />
         <Route
           path="/auth"
