@@ -1,16 +1,22 @@
-import classes from './CartDropdownItem.module.scss';
 import React from 'react';
+import {
+  CartDropdownItemContainer,
+  Image,
+  ItemDetails,
+  Name,
+  Info,
+} from './CartDropdownItem.styles';
 
 export const CartDropdownItem = ({ item: { imageUrl, name, price, qty } }) => {
   return (
-    <div className={classes.CartDropdownItem}>
-      <img src={imageUrl} alt="product" />
-      <div className={classes.ItemDetails}>
-        <span className={classes.Name}>{name}</span>
-        <span className="">
+    <CartDropdownItemContainer>
+      <Image src={imageUrl} alt="product" />
+      <ItemDetails>
+        <Name>{name}</Name>
+        <Info>
           {qty} &#10005; ${price}
-        </span>
-      </div>
-    </div>
+        </Info>
+      </ItemDetails>
+    </CartDropdownItemContainer>
   );
 };
