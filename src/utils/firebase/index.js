@@ -38,6 +38,24 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
+export const convertSnapshotCollection = collections => {
+  return collections.docs
+    .map(doc => {
+      const { title, items } = doc.data();
+
+      return {
+        id: doc.id,
+        routeName: encodeURI(title.toLowerCase()),
+        title,
+        items,
+      };
+    })
+    .reduce((accumulator, collection) => {
+      accumulator[collection.title.toLowerCase()] = collection;
+      return accumulator;
+    }, {});
+};
+
 //create a ref object
 export const addCollectionsAndDocs = async (collectionKey, objectsToAdd) => {
   const collectionRef = firestore.collection(collectionKey);

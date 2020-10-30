@@ -5,7 +5,6 @@ import { selectCollectionsForPreview } from '../../../redux/store/shop/shop.sele
 import { CategoryPreview } from './CategoryPreview/CategoryPreview';
 
 const CategoryOverview = ({ collectionData }) => {
-  console.log(collectionData);
   return (
     <div>
       {collectionData.map(({ id, ...otherCategoryProps }) => (

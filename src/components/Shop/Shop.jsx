@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
+import { updateCollections } from '../../redux/store/shop/shop.actions';
+import { convertSnapshotCollection, firestore } from '../../utils/firebase';
 import Collection from '../Collection/Collection';
 import CategoryOverview from './CategoryOverview/CategoryOverview';
 
-export const Shop = ({ match }) => {
+const Shop = ({ match, updateCollections }) => {
+  useEffect(() => {
+    //get collection reference from collection at specified path
+    const collectionRef = firestore.collection('collections');
+    collectionRef.onSnapshot(snapshot => {
+      let collectionObject = convertSnapshotCollection(snapshot);
+      updateCollections(collectionObject);
+    });
+  }, [updateCollections]);
+
   return (
     <div>
       <Route exact path={`${match.path}`} component={CategoryOverview} />
@@ -11,3 +23,10 @@ export const Shop = ({ match }) => {
     </div>
   );
 };
+
+const mapDispatchToProps = dispatch => ({
+  updateCollections: collectionObject =>
+    dispatch(updateCollections(collectionObject)),
+});
+
+export default connect(null, mapDispatchToProps)(Shop);

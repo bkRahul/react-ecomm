@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import Category from './components/Home/Category/Category';
 import CategoryItem from './components/Home/Category/CategoryItem/CategoryItem';
 import { Home } from './components/Home/Home';
-import { Shop } from './components/Shop/Shop';
+import Shop from './components/Shop/Shop';
 import { Layout } from './hoc/Layout/Layout';
 import { Auth } from './components/Auth/Auth';
 import {
@@ -41,7 +41,7 @@ function App({ setCurrentUser, isAuth }) {
       }
     });
 
-    //create collections data
+    //create collections data in firestore
     // addCollectionsAndDocs(
     //   'collections',
     //   shopData.map(({ title, items }) => ({ title, items }))
