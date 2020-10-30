@@ -6,11 +6,16 @@ import { Home } from './components/Home/Home';
 import { Shop } from './components/Shop/Shop';
 import { Layout } from './hoc/Layout/Layout';
 import { Auth } from './components/Auth/Auth';
-import { auth, createUserProfileDocument } from './utils/firebase';
+import {
+  //  addCollectionsAndDocs,
+  auth,
+  createUserProfileDocument,
+} from './utils/firebase';
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/store/user/user.actions';
 import { selectCurrentUser } from './redux/store/user/user.selectors';
 import Checkout from './components/Checkout/Checkout';
+//import { selectCollectionsForPreview } from './redux/store/shop/shop.selectors';
 
 function App({ setCurrentUser, isAuth }) {
   useEffect(() => {
@@ -20,7 +25,7 @@ function App({ setCurrentUser, isAuth }) {
     unSubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       //if logged in
       if (userAuth) {
-        //create user profile whuch return document refernece
+        //create user profile whuch return user document refernece
         const userRef = await createUserProfileDocument(userAuth);
 
         //get document snapshot from document reference
@@ -35,6 +40,13 @@ function App({ setCurrentUser, isAuth }) {
         setCurrentUser(userAuth);
       }
     });
+
+    //create collections data
+    // addCollectionsAndDocs(
+    //   'collections',
+    //   shopData.map(({ title, items }) => ({ title, items }))
+    // );
+
     return () => {
       unSubscribeFromAuth();
     };
@@ -56,7 +68,10 @@ function App({ setCurrentUser, isAuth }) {
   );
 }
 
-const mapStateToProps = state => ({ isAuth: selectCurrentUser(state) });
+const mapStateToProps = state => ({
+  isAuth: selectCurrentUser(state),
+  //  shopData: selectCollectionsForPreview(state),
+});
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),

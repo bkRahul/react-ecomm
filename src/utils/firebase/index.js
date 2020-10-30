@@ -19,6 +19,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   //get user snapshot
   const snapShot = await userRef.get();
 
+  //if no user record exist
   if (!snapShot.exists) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
@@ -35,6 +36,24 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     }
   }
   return userRef;
+};
+
+//create a ref object
+export const addCollectionsAndDocs = async (collectionKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(collectionKey);
+  console.log(collectionRef);
+  //create a firestore batch
+  const batch = firestore.batch();
+  console.log(' objectsToAdd =....', objectsToAdd);
+  objectsToAdd.forEach(obj => {
+    //get document reference at specified path
+    const newDocRef = collectionRef.doc();
+    //batch the document reference value
+    batch.set(newDocRef, obj);
+    console.log(newDocRef);
+  });
+  //fire batch request
+  await batch.commit();
 };
 
 firebase.initializeApp(config);
