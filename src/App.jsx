@@ -4,7 +4,7 @@ import Category from './components/Home/Category/Category';
 import CategoryItem from './components/Home/Category/CategoryItem/CategoryItem';
 import { Home } from './components/Home/Home';
 import Shop from './components/Shop/Shop';
-import { Layout } from './hoc/Layout/Layout';
+
 import { Auth } from './components/Auth/Auth';
 import {
   //  addCollectionsAndDocs,
@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/store/user/user.actions';
 import { selectCurrentUser } from './redux/store/user/user.selectors';
 import Checkout from './components/Checkout/Checkout';
+import { withLayout as WithLayout } from './hoc/Layout/withLayout';
 //import { selectCollectionsForPreview } from './redux/store/shop/shop.selectors';
 
 function App({ setCurrentUser, isAuth }) {
@@ -52,7 +53,7 @@ function App({ setCurrentUser, isAuth }) {
     };
   }, [setCurrentUser]);
   return (
-    <Layout>
+    <WithLayout>
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/shop" component={Shop} />
@@ -64,7 +65,7 @@ function App({ setCurrentUser, isAuth }) {
         <Route path="/category" component={Category} />
         <Route path="/category/:items" component={CategoryItem} />
       </Switch>
-    </Layout>
+    </WithLayout>
   );
 }
 

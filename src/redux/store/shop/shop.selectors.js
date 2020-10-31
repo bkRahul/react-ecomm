@@ -13,7 +13,8 @@ export const selectCollections = createSelector(
 //get only preview collections
 export const selectCollectionsForPreview = createSelector(
   [selectCollections],
-  collections => Object.keys(collections).map(key => collections[key])
+  collections =>
+    collections ? Object.keys(collections).map(key => collections[key]) : []
 );
 
 //render collection based on category in url
@@ -22,7 +23,7 @@ export const selectCollection = collectionUrlParam =>
   //createSelector is the returning function
   createSelector(
     [selectCollections],
-    collections => collections[collectionUrlParam]
+    collections => (collections ? collections[collectionUrlParam] : null)
     //if collection was array
     //collections =>collections.find(collection => collection.id === COLLECTION_ID_MAP[collectionUrlParam])
   );
