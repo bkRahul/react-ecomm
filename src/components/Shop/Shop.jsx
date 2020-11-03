@@ -1,28 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
-import { convertSnapshotCollection, firestore } from '../../utils/firebase';
 import withSpinner from '../../hoc/Spinner/withSpinner';
-import { updateCollections } from '../../redux/store/shop/shop.actions';
+import { fetchCollections } from '../../redux/store/shop/shop.actions';
+import {
+  selectCollections,
+  selectIsLoading,
+} from '../../redux/store/shop/shop.selectors';
 import Collection from '../Collection/Collection';
 import CategoryOverview from './CategoryOverview/CategoryOverview';
 
-const Shop = ({ match, updateCollections }) => {
-  const [loading, setLoading] = useState(true);
-
+const Shop = ({ match, fetchCollections, loading, isCollectionLoaded }) => {
   const CategoryOverviewWithSpinner = withSpinner(CategoryOverview);
   const CollectionWithSpinner = withSpinner(Collection);
 
   useEffect(() => {
-    //get collection reference from collection at specified path
-    const collectionRef = firestore.collection('collections');
-    collectionRef.onSnapshot(snapshot => {
-      let collectionObject = convertSnapshotCollection(snapshot);
-      updateCollections(collectionObject);
-      setLoading(false);
-    });
-  }, [updateCollections]);
-
+    fetchCollections();
+  }, [fetchCollections]);
+  console.log('isCollectionLoaded=>>>>', isCollectionLoaded);
   return (
     <div>
       <Route
@@ -35,16 +30,20 @@ const Shop = ({ match, updateCollections }) => {
       <Route
         path={`${match.path}/:collectionId`}
         render={props => (
-          <CollectionWithSpinner isLoading={loading} {...props} />
+          <CollectionWithSpinner isLoading={!isCollectionLoaded} {...props} />
         )}
       />
     </div>
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  updateCollections: collectionObject =>
-    dispatch(updateCollections(collectionObject)),
+const mapStateToProps = state => ({
+  loading: selectIsLoading(state),
+  isCollectionLoaded: !!selectCollections(state),
 });
 
-export default connect(null, mapDispatchToProps)(Shop);
+const mapDispatchToProps = dispatch => ({
+  fetchCollections: () => dispatch(fetchCollections()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Shop);

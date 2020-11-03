@@ -1,6 +1,7 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import logger from 'redux-logger';
 import { persistStore } from 'redux-persist';
+import thunk from 'redux-thunk';
 import rootReducer from './root-reducer';
 
 const composeEnhancers =
@@ -8,7 +9,7 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : null || compose;
 
-const middlewares = [];
+const middlewares = [thunk];
 process.env.NODE_ENV === 'development' && middlewares.push(logger);
 
 export const store = createStore(

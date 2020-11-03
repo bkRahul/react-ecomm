@@ -10,6 +10,12 @@ export const selectCollections = createSelector(
   shop => shop.collections
 );
 
+//get loading value
+export const selectIsLoading = createSelector(
+  [selectShop],
+  shop => shop.loading
+);
+
 //get only preview collections
 export const selectCollectionsForPreview = createSelector(
   [selectCollections],
