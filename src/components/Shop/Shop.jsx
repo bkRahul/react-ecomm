@@ -1,49 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
-import withSpinner from '../../hoc/Spinner/withSpinner';
-import { fetchCollections } from '../../redux/store/shop/shop.actions';
-import {
-  selectCollections,
-  selectIsLoading,
-} from '../../redux/store/shop/shop.selectors';
-import Collection from '../Collection/Collection';
-import CategoryOverview from './CategoryOverview/CategoryOverview';
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { Route } from 'react-router-dom'
+import { fetchCollections } from '../../redux/store/shop/shop.actions'
+import CollectionContainer from '../Collection/CollectionContainer'
+import CategoryOverviewContainer from './CategoryOverview/CategoryOverviewContainer'
 
-const Shop = ({ match, fetchCollections, loading, isCollectionLoaded }) => {
-  const CategoryOverviewWithSpinner = withSpinner(CategoryOverview);
-  const CollectionWithSpinner = withSpinner(Collection);
-
-  useEffect(() => {
-    fetchCollections();
-  }, [fetchCollections]);
-  console.log('isCollectionLoaded=>>>>', isCollectionLoaded);
-  return (
-    <div>
-      <Route
-        exact
-        path={`${match.path}`}
-        render={props => (
-          <CategoryOverviewWithSpinner isLoading={loading} {...props} />
-        )}
-      />
-      <Route
-        path={`${match.path}/:collectionId`}
-        render={props => (
-          <CollectionWithSpinner isLoading={!isCollectionLoaded} {...props} />
-        )}
-      />
-    </div>
-  );
-};
-
-const mapStateToProps = state => ({
-  loading: selectIsLoading(state),
-  isCollectionLoaded: !!selectCollections(state),
-});
+const Shop = ({ match, fetchCollections, isCollectionLoaded }) => {
+	useEffect(() => {
+		fetchCollections()
+	}, [fetchCollections])
+	return (
+		<div>
+			<Route
+				exact
+				path={`${match.path}`}
+				component={CategoryOverviewContainer}
+			/>
+			<Route
+				path={`${match.path}/:collectionId`}
+				component={CollectionContainer}
+			/>
+		</div>
+	)
+}
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollections: () => dispatch(fetchCollections()),
-});
+	fetchCollections: () => dispatch(fetchCollections()),
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(Shop);
+export default connect(null, mapDispatchToProps)(Shop)
