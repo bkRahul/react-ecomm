@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import Category from './components/Home/Category/Category'
@@ -9,8 +9,13 @@ import { Auth } from './components/Auth/Auth'
 import { selectCurrentUser } from './redux/store/user/user.selectors'
 import Checkout from './components/Checkout/Checkout'
 import { withLayout as WithLayout } from './hoc/Layout/withLayout'
+import { checkUserSession } from './redux/store/user/user.actions'
+import { createStructuredSelector } from 'reselect'
 
-function App({ isAuth }) {
+function App({ isAuth, checkUserSession }) {
+	useEffect(() => {
+		checkUserSession()
+	}, [checkUserSession])
 	return (
 		<WithLayout>
 			<Switch>
@@ -28,9 +33,16 @@ function App({ isAuth }) {
 	)
 }
 
+// const mapStateToProps = createStructuredSelector({
+// 	isAuth:
+// })
+
 const mapStateToProps = state => ({
 	isAuth: selectCurrentUser(state),
-	//  shopData: selectCollectionsForPreview(state),
 })
 
-export default connect(mapStateToProps)(App)
+const mapDispatchToProps = dispatch => ({
+	checkUserSession: () => dispatch(checkUserSession()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
