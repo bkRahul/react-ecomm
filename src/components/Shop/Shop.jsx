@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
-import { fetchCollections } from '../../redux/store/shop/shop.actions'
+import { fetchCollectionsStart } from '../../redux/store/shop/shop.actions'
 import CollectionContainer from '../Collection/CollectionContainer'
 import CategoryOverviewContainer from './CategoryOverview/CategoryOverviewContainer'
 
@@ -25,7 +25,7 @@ const Shop = ({ match, fetchCollections, isCollectionLoaded }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-	fetchCollections: () => dispatch(fetchCollections()),
+	fetchCollections: () => dispatch(fetchCollectionsStart()),
 })
 
 export default connect(null, mapDispatchToProps)(Shop)
