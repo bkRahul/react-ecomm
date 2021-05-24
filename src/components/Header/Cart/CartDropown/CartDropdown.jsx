@@ -5,7 +5,10 @@ import { Button } from '../../../../ui/Button/Button'
 import { CartDropdownItem } from '../CartDropdownItem/CartDropdownItem'
 import { connect } from 'react-redux'
 import { selectCartItems } from '../../../../redux/store/cart/cart.selectors'
-import { toggleCartPreview } from '../../../../redux/store/cart/cart.actions'
+import {
+	clearCartItems,
+	toggleCartPreview,
+} from '../../../../redux/store/cart/cart.actions'
 import { createStructuredSelector } from 'reselect'
 
 const CartDropdown = ({ cartItems, history, dispatch }) => {
@@ -20,14 +23,25 @@ const CartDropdown = ({ cartItems, history, dispatch }) => {
 					</h1>
 				)}
 			</div>
-			<Button
-				clicked={() => {
-					history.push('/checkout')
-					dispatch(toggleCartPreview())
-				}}
-			>
-				Proceed to Checkout
-			</Button>
+			<div className={classes.CartButtonContainer}>
+				<Button
+					btnType='ClearCartBtn'
+					clicked={() => {
+						dispatch(clearCartItems())
+					}}
+				>
+					Clear Cart
+				</Button>
+				<Button
+					btnType='CheckoutCartBtn'
+					clicked={() => {
+						history.push('/checkout')
+						dispatch(toggleCartPreview())
+					}}
+				>
+					Go to Checkout
+				</Button>
+			</div>
 		</div>
 	)
 }

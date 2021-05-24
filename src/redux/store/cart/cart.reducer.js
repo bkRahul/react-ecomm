@@ -1,44 +1,50 @@
 import {
-  addItemToCartUtil,
-  decreaseItemQty,
-  removeItemFromCartUtil,
-} from '../../../utils/cart';
-import { cartActionTypes } from './cart.actionTypes';
+	addItemToCartUtil,
+	decreaseItemQty,
+	removeItemFromCartUtil,
+} from '../../../utils/cart'
+import { cartActionTypes } from './cart.actionTypes'
 
 const INITIAL_STATE = {
-  cartPreview: false,
-  cartItems: [],
-};
+	cartPreview: false,
+	cartItems: [],
+}
 
 const cartReducer = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    case cartActionTypes.TOGGLE_CART_PREVIEW:
-      return {
-        ...state,
-        cartPreview: !state.cartPreview,
-      };
+	switch (action.type) {
+		case cartActionTypes.TOGGLE_CART_PREVIEW:
+			return {
+				...state,
+				cartPreview: !state.cartPreview,
+			}
 
-    case cartActionTypes.ADD_TO_CART:
-      return {
-        ...state,
-        cartItems: addItemToCartUtil(state.cartItems, action.payload),
-      };
+		case cartActionTypes.ADD_TO_CART:
+			return {
+				...state,
+				cartItems: addItemToCartUtil(state.cartItems, action.payload),
+			}
 
-    case cartActionTypes.REMOVE_FROM_CART:
-      return {
-        ...state,
-        cartItems: removeItemFromCartUtil(state.cartItems, action.payload),
-      };
+		case cartActionTypes.REMOVE_FROM_CART:
+			return {
+				...state,
+				cartItems: removeItemFromCartUtil(state.cartItems, action.payload),
+			}
 
-    case cartActionTypes.DECREASE_ITEM_QTY:
-      return {
-        ...state,
-        cartItems: decreaseItemQty(state.cartItems, action.payload),
-      };
+		case cartActionTypes.CLEAR_CART:
+			return {
+				...state,
+				cartItems: [],
+			}
 
-    default:
-      return state;
-  }
-};
+		case cartActionTypes.DECREASE_ITEM_QTY:
+			return {
+				...state,
+				cartItems: decreaseItemQty(state.cartItems, action.payload),
+			}
 
-export default cartReducer;
+		default:
+			return state
+	}
+}
+
+export default cartReducer

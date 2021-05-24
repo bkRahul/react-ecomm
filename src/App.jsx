@@ -33,12 +33,8 @@ function App({ isAuth, checkUserSession }) {
 	)
 }
 
-// const mapStateToProps = createStructuredSelector({
-// 	isAuth:
-// })
-
-const mapStateToProps = state => ({
-	isAuth: selectCurrentUser(state),
+const mapStateToProps = createStructuredSelector({
+	isAuth: selectCurrentUser,
 })
 
 const mapDispatchToProps = dispatch => ({
