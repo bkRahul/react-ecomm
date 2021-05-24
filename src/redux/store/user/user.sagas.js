@@ -5,7 +5,12 @@ import {
 	getCurrentUser,
 	googleProvider,
 } from '../../../utils/firebase'
-import { signInFailure, signInSuccess } from './user.actions'
+import {
+	signInFailure,
+	signInSuccess,
+	signOutFailure,
+	signOutSuccess,
+} from './user.actions'
 import { userActionTypes } from './user.actionTypes'
 
 function* getSnapShotFromUserAuth(userAuth) {
@@ -46,6 +51,20 @@ export function* onEmailSignStart() {
 	yield takeLatest(userActionTypes.EMAIL_SIGN_IN_START, signInWithEmail)
 }
 
+//user sign out
+function* signOut() {
+	try {
+		yield auth.signOut()
+		yield put(signOutSuccess())
+	} catch (error) {
+		yield put(signOutFailure(error))
+	}
+}
+
+export function* onSignOutStart() {
+	yield takeLatest(userActionTypes.SIGN_OUT_START, signOut)
+}
+
 //persist user login saga
 
 function* isUserAuthenticated() {
@@ -67,6 +86,7 @@ export function* userSagas() {
 	yield all([
 		call(onGoogleSignStart),
 		call(onEmailSignStart),
+		call(onSignOutStart),
 		call(isUserAuthenticated),
 	])
 }
