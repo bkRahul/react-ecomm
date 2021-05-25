@@ -48,6 +48,28 @@ export const signOutFailure = error => {
 	}
 }
 
+//sign up
+export const signUpStart = userCredentials => {
+	return {
+		type: userActionTypes.SIGN_UP_START,
+		payload: userCredentials,
+	}
+}
+
+export const signUpSuccess = ({ user, additionalData }) => {
+	return {
+		type: userActionTypes.SIGN_UP_SUCCESS,
+		payload: { user, additionalData },
+	}
+}
+
+export const signUpFailure = error => {
+	return {
+		type: userActionTypes.SIGN_UP_FAILURE,
+		payload: error,
+	}
+}
+
 //check user auth
 export const checkUserSession = () => {
 	return {

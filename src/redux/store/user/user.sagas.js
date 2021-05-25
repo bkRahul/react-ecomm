@@ -10,12 +10,18 @@ import {
 	signInSuccess,
 	signOutFailure,
 	signOutSuccess,
+	signUpFailure,
+	signUpSuccess,
 } from './user.actions'
 import { userActionTypes } from './user.actionTypes'
 
-function* getSnapShotFromUserAuth(userAuth) {
+function* getSnapShotFromUserAuth(userAuth, additionalData) {
 	try {
-		const userRef = yield call(createUserProfileDocument, userAuth)
+		const userRef = yield call(
+			createUserProfileDocument,
+			userAuth,
+			additionalData,
+		)
 		const userSnapshot = yield userRef.get()
 		yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }))
 	} catch (error) {
@@ -65,6 +71,29 @@ export function* onSignOutStart() {
 	yield takeLatest(userActionTypes.SIGN_OUT_START, signOut)
 }
 
+//user signup saga
+function* signUp({ payload: { email, password, displayName } }) {
+	try {
+		const { user } = yield auth.createUserWithEmailAndPassword(email, password)
+		yield put(signUpSuccess({ user, additionalData: { displayName } }))
+	} catch (error) {
+		yield put(signUpFailure(error))
+	}
+}
+
+export function* onSignUpStart() {
+	yield takeLatest(userActionTypes.SIGN_UP_START, signUp)
+}
+
+//signin after signup saga
+function* signInAftersignUp({ payload: { user, additionalData } }) {
+	yield getSnapShotFromUserAuth(user, additionalData)
+}
+
+export function* onSignUpSuccess() {
+	yield takeLatest(userActionTypes.SIGN_UP_SUCCESS, signInAftersignUp)
+}
+
 //persist user login saga
 
 function* isUserAuthenticated() {
@@ -88,5 +117,7 @@ export function* userSagas() {
 		call(onEmailSignStart),
 		call(onSignOutStart),
 		call(isUserAuthenticated),
+		call(onSignUpStart),
+		call(onSignUpSuccess),
 	])
 }
