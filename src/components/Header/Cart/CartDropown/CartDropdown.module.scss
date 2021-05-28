@@ -1,24 +1,30 @@
 .CartDropdown {
-  position: absolute;
-  width: 240px;
-  height: 340px;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  border: 1px solid black;
-  background-color: white;
-  top: 90px;
-  right: 40px;
-  z-index: 5;
+	position: absolute;
+	width: 280px;
+	height: 340px;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	border: 1px solid black;
+	background-color: white;
+	top: 90px;
+	right: 40px;
+	z-index: 5;
 
-  .CartItems {
-    height: 240px;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-  }
+	.CartItems {
+		height: 240px;
+		display: flex;
+		flex-direction: column;
+		overflow-x: hidden;
+	}
 
-  Button {
-    margin-top: auto;
-  }
+	.CartButtonContainer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	Button {
+		margin-top: auto;
+	}
 }

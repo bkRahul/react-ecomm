@@ -1,50 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
-import { convertSnapshotCollection, firestore } from '../../utils/firebase';
-import withSpinner from '../../hoc/Spinner/withSpinner';
-import { updateCollections } from '../../redux/store/shop/shop.actions';
-import Collection from '../Collection/Collection';
-import CategoryOverview from './CategoryOverview/CategoryOverview';
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { Route } from 'react-router-dom'
+import { fetchCollectionsStart } from '../../redux/store/shop/shop.actions'
+import CollectionContainer from '../Collection/CollectionContainer'
+import CategoryOverviewContainer from './CategoryOverview/CategoryOverviewContainer'
 
-const Shop = ({ match, updateCollections }) => {
-  const [loading, setLoading] = useState(true);
-
-  const CategoryOverviewWithSpinner = withSpinner(CategoryOverview);
-  const CollectionWithSpinner = withSpinner(Collection);
-
-  useEffect(() => {
-    //get collection reference from collection at specified path
-    const collectionRef = firestore.collection('collections');
-    collectionRef.onSnapshot(snapshot => {
-      let collectionObject = convertSnapshotCollection(snapshot);
-      updateCollections(collectionObject);
-      setLoading(false);
-    });
-  }, [updateCollections]);
-
-  return (
-    <div>
-      <Route
-        exact
-        path={`${match.path}`}
-        render={props => (
-          <CategoryOverviewWithSpinner isLoading={loading} {...props} />
-        )}
-      />
-      <Route
-        path={`${match.path}/:collectionId`}
-        render={props => (
-          <CollectionWithSpinner isLoading={loading} {...props} />
-        )}
-      />
-    </div>
-  );
-};
+const Shop = ({ match, fetchCollections, isCollectionLoaded }) => {
+	useEffect(() => {
+		fetchCollections()
+	}, [fetchCollections])
+	return (
+		<div>
+			<Route
+				exact
+				path={`${match.path}`}
+				component={CategoryOverviewContainer}
+			/>
+			<Route
+				path={`${match.path}/:collectionId`}
+				component={CollectionContainer}
+			/>
+		</div>
+	)
+}
 
 const mapDispatchToProps = dispatch => ({
-  updateCollections: collectionObject =>
-    dispatch(updateCollections(collectionObject)),
-});
+	fetchCollections: () => dispatch(fetchCollectionsStart()),
+})
 
-export default connect(null, mapDispatchToProps)(Shop);
+export default connect(null, mapDispatchToProps)(Shop)
