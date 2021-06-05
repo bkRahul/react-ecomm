@@ -1,25 +1,22 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { toggleCartPreview } from '../../../../redux/store/cart/cart.actions';
-import { selectCartItemsCount } from '../../../../redux/store/cart/cart.selectors';
-import { Cart, ItemCount, BagIcon } from './CartIcon.styles';
+import React, { useContext } from 'react'
+import { connect } from 'react-redux'
+import cartContext from '../../../../context/cart'
+import { selectCartItemsCount } from '../../../../redux/store/cart/cart.selectors'
+import { Cart, ItemCount, BagIcon } from './CartIcon.styles'
 
-const CartIcon = ({ toggleCartPreview, itemCount }) => {
-  return (
-    <Cart onClick={toggleCartPreview}>
-      <BagIcon />
-      <ItemCount>{itemCount}</ItemCount>
-    </Cart>
-  );
-};
+const CartIcon = ({ itemCount }) => {
+	const { toggleCartPreview } = useContext(cartContext)
+	return (
+		<Cart onClick={toggleCartPreview}>
+			<BagIcon />
+			<ItemCount>{itemCount}</ItemCount>
+		</Cart>
+	)
+}
 
 const mapStateToProps = state => ({
-  //pass whole state to the selector
-  itemCount: selectCartItemsCount(state),
-});
+	//pass whole state to the selector
+	itemCount: selectCartItemsCount(state),
+})
 
-const mapDispatchToProps = dispatch => ({
-  toggleCartPreview: () => dispatch(toggleCartPreview()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);
+export default connect(mapStateToProps)(CartIcon)

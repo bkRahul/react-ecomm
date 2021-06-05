@@ -1,46 +1,47 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { ReactComponent as Logo } from '../../assets/svg/crown.svg';
-import { selectCartPreview } from '../../redux/store/cart/cart.selectors';
-import { selectCurrentUser } from '../../redux/store/user/user.selectors';
-import { auth } from '../../utils/firebase';
-import CartDropdown from './Cart/CartDropown/CartDropdown';
-import CartIcon from './Cart/CartIcon/CartIcon';
-import classes from './Header.module.scss';
+import React, { useContext, useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import { ReactComponent as Logo } from '../../assets/svg/crown.svg'
+import CartContext from '../../context/cart'
+import userContext from '../../context/user'
+import { auth } from '../../utils/firebase'
+import CartDropdown from './Cart/CartDropown/CartDropdown'
+import CartIcon from './Cart/CartIcon/CartIcon'
+import classes from './Header.module.scss'
 
-const Header = ({ isAuth, isVisible }) => {
-  return (
-    <div className={classes.Header}>
-      <NavLink to="/" className={classes.LogoContainer}>
-        <Logo className={classes.Logo} />
-      </NavLink>
-      <div className={classes.Options}>
-        <NavLink to="/shop" className={classes.Option}>
-          SHOP
-        </NavLink>
-        <NavLink to="/contact" className={classes.Option}>
-          CONTACT
-        </NavLink>
-        {isAuth ? (
-          <div className={classes.Option} onClick={() => auth.signOut()}>
-            LOG OUT
-          </div>
-        ) : (
-          <NavLink to="/auth" className={classes.Option}>
-            LOG IN
-          </NavLink>
-        )}
-        <CartIcon />
-      </div>
-      {isVisible && <CartDropdown />}
-    </div>
-  );
-};
+const Header = () => {
+	const currentUser = useContext(userContext)
+	const [cartPreview, setCartPreview] = useState(false)
 
-const mapStateToProps = state => ({
-  isAuth: selectCurrentUser(state),
-  isVisible: selectCartPreview(state),
-});
+	const toggleCartPreview = () => setCartPreview(!cartPreview)
 
-export default connect(mapStateToProps)(Header);
+	return (
+		<div className={classes.Header}>
+			<NavLink to='/' className={classes.LogoContainer}>
+				<Logo className={classes.Logo} />
+			</NavLink>
+			<div className={classes.Options}>
+				<NavLink to='/shop' className={classes.Option}>
+					SHOP
+				</NavLink>
+				<NavLink to='/contact' className={classes.Option}>
+					CONTACT
+				</NavLink>
+				{currentUser ? (
+					<div className={classes.Option} onClick={() => auth.signOut()}>
+						LOG OUT
+					</div>
+				) : (
+					<NavLink to='/auth' className={classes.Option}>
+						LOG IN
+					</NavLink>
+				)}
+				<CartContext.Provider value={{ cartPreview, toggleCartPreview }}>
+					<CartIcon />
+				</CartContext.Provider>
+			</div>
+			{cartPreview && <CartDropdown />}
+		</div>
+	)
+}
+
+export default Header
