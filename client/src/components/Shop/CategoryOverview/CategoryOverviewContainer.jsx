@@ -10,7 +10,8 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const CategoryOverviewContainer = compose(
-	(connect(mapStateToProps), withSpinner)(CategoryOverview),
-)
+	connect(mapStateToProps),
+	withSpinner,
+)(CategoryOverview)
 
 export default CategoryOverviewContainer

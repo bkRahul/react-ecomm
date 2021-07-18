@@ -6,11 +6,12 @@ import { selectCollections } from '../../redux/store/shop/shop.selectors'
 import Collection from './Collection'
 
 const mapStateToProps = createStructuredSelector({
-	isLoading: selectCollections,
+	isLoading: state => !selectCollections(state),
 })
 
 const CollectionContainer = compose(
-	(connect(mapStateToProps), withSpinner)(Collection),
-)
+	connect(mapStateToProps),
+	withSpinner,
+)(Collection)
 
 export default CollectionContainer
