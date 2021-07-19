@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { selectCurrentUser } from './redux/store/user/user.selectors'
 import { withLayout as WithLayout } from './hoc/Layout/withLayout'
+import { default as WithErrorBoundary } from './hoc/ErrorBoundary/withErrorBoundary'
 import { checkUserSession } from './redux/store/user/user.actions'
 import { createStructuredSelector } from 'reselect'
 import { Spinner } from './ui/Spinner/Spinner'
@@ -18,19 +19,21 @@ function App({ isAuth, checkUserSession }) {
 	}, [checkUserSession])
 
 	return (
-		<Suspense fallback={<Spinner />}>
-			<WithLayout>
-				<Switch>
-					<Route exact path='/' component={Home} />
-					<Route path='/shop' component={Shop} />
-					<Route path='/checkout' component={Checkout} />
-					<Route
-						path='/auth'
-						render={() => (isAuth ? <Redirect to='/' /> : <Auth />)}
-					/>
-				</Switch>
-			</WithLayout>
-		</Suspense>
+		<WithErrorBoundary>
+			<Suspense fallback={<Spinner />}>
+				<WithLayout>
+					<Switch>
+						<Route exact path='/' component={Home} />
+						<Route path='/shop' component={Shop} />
+						<Route path='/checkout' component={Checkout} />
+						<Route
+							path='/auth'
+							render={() => (isAuth ? <Redirect to='/' /> : <Auth />)}
+						/>
+					</Switch>
+				</WithLayout>
+			</Suspense>
+		</WithErrorBoundary>
 	)
 }
 
