@@ -3,7 +3,7 @@ import classes from './Auth.module.scss'
 import Login from './Login/Login'
 import SignUp from './SignUp/SignUp'
 
-export const Auth = () => {
+const Auth = () => {
 	return (
 		<div className={classes.Auth}>
 			<Login />
@@ -11,3 +11,5 @@ export const Auth = () => {
 		</div>
 	)
 }
+
+export default Auth

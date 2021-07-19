@@ -1,16 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { lazy, useEffect, Suspense } from 'react'
 import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 import { fetchCollectionsStart } from '../../redux/store/shop/shop.actions'
-import CollectionContainer from '../Collection/CollectionContainer'
-import CategoryOverviewContainer from './CategoryOverview/CategoryOverviewContainer'
+import { Spinner } from '../../ui/Spinner/Spinner'
+
+const CollectionContainer = lazy(() =>
+	import('../Collection/CollectionContainer'),
+)
+const CategoryOverviewContainer = lazy(() =>
+	import('./CategoryOverview/CategoryOverviewContainer'),
+)
 
 const Shop = ({ match, fetchCollections, isCollectionLoaded }) => {
 	useEffect(() => {
 		fetchCollections()
 	}, [fetchCollections])
+
 	return (
-		<div>
+		<Suspense fallback={<Spinner />}>
 			<Route
 				exact
 				path={`${match.path}`}
@@ -20,7 +27,7 @@ const Shop = ({ match, fetchCollections, isCollectionLoaded }) => {
 				path={`${match.path}/:collectionId`}
 				component={CollectionContainer}
 			/>
-		</div>
+		</Suspense>
 	)
 }
 
