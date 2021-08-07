@@ -8,10 +8,18 @@ import { checkUserSession } from './redux/store/user/user.actions'
 import { createStructuredSelector } from 'reselect'
 import { Spinner } from './ui/Spinner/Spinner'
 
-const Home = lazy(() => import('./components/Home/Home'))
-const Shop = lazy(() => import('./components/Shop/Shop'))
-const Auth = lazy(() => import('./components/Auth/Auth'))
-const Checkout = lazy(() => import('./components/Checkout/Checkout'))
+const Home = lazy(() =>
+	import(/* webpackChunkName: "Home" */ './components/Home/Home'),
+)
+const Shop = lazy(() =>
+	import(/* webpackChunkName: "Shop" */ './components/Shop/Shop'),
+)
+const Auth = lazy(() =>
+	import(/* webpackChunkName: "Auth" */ './components/Auth/Auth'),
+)
+const Checkout = lazy(() =>
+	import(/* webpackChunkName: "Checkout" */ './components/Checkout/Checkout'),
+)
 
 function App({ isAuth, checkUserSession }) {
 	useEffect(() => {
