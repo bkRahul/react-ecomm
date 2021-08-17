@@ -24,8 +24,20 @@ app.use(cors());
 app.use(compression());
 app.use(enforce.HTTPS({ trustProtoHeader: true }));
 
+function setCustomCacheControl(res, path) {
+  if (serveStatic.mime.lookup(path) === 'text/html') {
+    // Custom Cache-Control for HTML files
+    res.setHeader('Cache-Control', 'public, max-age=0');
+  }
+}
+
 //serve static files
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(
+  express.static(path.join(__dirname, 'client/build'), {
+    maxAge: '1d',
+    setHeaders: setCustomCacheControl,
+  })
+);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
