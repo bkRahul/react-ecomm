@@ -26,7 +26,7 @@ app.use(enforce.HTTPS({ trustProtoHeader: true }));
 
 //serve static files
 app.use(
-  express.static(path.join(__dirname, 'client/build'), { maxAge: 31536000 })
+  express.static(path.join(__dirname, 'client/build'), { maxAge: '1 year' })
 );
 
 app.get('*', (req, res) => {
