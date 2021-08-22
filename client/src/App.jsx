@@ -21,7 +21,7 @@ const Checkout = lazy(() =>
 	import(/* webpackChunkName: "Checkout" */ './components/Checkout/Checkout'),
 )
 
-function App({ isAuth, checkUserSession }) {
+export function App({ isAuth, checkUserSession }) {
 	useEffect(() => {
 		checkUserSession()
 	}, [checkUserSession])

@@ -48,6 +48,26 @@
 		]
 	},
 	"devDependencies": {
+		"enzyme": "^3.11.0",
+		"enzyme-adapter-react-16": "^1.15.6",
 		"webpack-bundle-analyzer": "^4.4.2"
+	},
+	"jest": {
+		"collectCoverageFrom": [
+			"src/**/*.{js,jsx,ts,tsx}",
+			"!src/index.js"
+		],
+		"coverageThreshold": {
+			"global": {
+				"branches": 90,
+				"functions": 90,
+				"lines": 90,
+				"statements": 90
+			}
+		},
+		"coverageReporters": [
+			"html",
+			"text"
+		]
 	}
 }
